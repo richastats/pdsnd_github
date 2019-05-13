@@ -5,7 +5,8 @@
 PDSND -Github project
 
 ### Description
-This project is focussed on committing changes of bikeshare python file
+This project is focussed on committing changes of bikeshare file.
+It is a python file
 
 ### Files used
 bikeshare.py
