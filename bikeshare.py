@@ -9,7 +9,7 @@ import numpy as np
 
 def get_filters():
     """
-    Asks user to specify a city, month, and day to analyze.
+    Asks users to specify name of the city, month, and day they want to analyze.
 
     Returns:
         (str) city - name of the city to analyze
@@ -20,37 +20,37 @@ def get_filters():
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
     print('Hello! Let\'s explore some US bikeshare data!')
-    # get user input for city (chicago, new york city, washington). HINT: Use a while loop to 
+    # get user input for city (chicago, new york city, washington). HINT: Use a while loop to
     #handle invalid inputs
     city= input(f"Enter name of the city.Please choose from {list(CITY_DATA.keys())}: \n")
-    
+
     while city.lower() not in CITY_DATA.keys():
         print (f"Please choose from available options!")
         city= input("Enter name of the city: \n")
-    
-    print(f"You have entered {city} as the city name")    
-    
+
+    print(f"You have entered {city} as the city name")
+
     # get user input for month (all, january, february, ... , june)
     month= input("Enter name of the month between jan to june or enter 'all': \n")
     months= ['all', 'january','february', 'march', 'april', 'may', 'june']
     while month.lower() not in months:
         print(f'The value must be one of all, january, february, march, april, may, june ')
         month= input("Enter name of the month between january to june or enter 'all': \n")
-    
+
     if month.lower() != "all":
             month= months.index(month.lower())
             print(f'you have selected the month of {months[month]}')
     else:
         print(f'you have selected all')
-        
+
     # get user input for day of week (all, monday, tuesday, ... sunday)
     day= input("Enter the day you want to filter upon else enter all:\n")
-    
+
     while day.lower() not in ['all','sunday','monday', 'tuesday', 'wednesday', 'thursday', 'friday','saturday']:
         print(f'The value must be one of all,sunday,monday,tuesday,wednesday,thursday,friday,saturday')
         day= input("Enter the day you want to filter upon else enter all:\n")
     print(f'you have selected the day of {day}')
-    
+
     print('-'*40)
     return city.lower(), month, day.lower()
 
@@ -68,15 +68,15 @@ def load_data(city, month, day):
     CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
-    
+
     df= pd.read_csv(CITY_DATA[city],sep=",",parse_dates=['Start Time', 'End Time'])
-    
+
     df['month'] = df['Start Time'].dt.month
     df['day_of_week'] = df['Start Time'].dt.weekday_name
-    
+
     if month != "all":
         df = df[df['month'] == month]
-    
+
     if day.lower()!="all":
         df = df[df['day_of_week'].str.lower()==day]
 
@@ -95,10 +95,10 @@ def data_snapshot(df):
         print(df[i:i+5])
         answer= input("Do you want to see more data: yes/no ? ")
         i+=5
-        
-    
-            
-    
+
+
+
+
 def time_stats(df):
     """Displays statistics on the most frequent times of travel."""
 
@@ -116,7 +116,7 @@ def time_stats(df):
     df["start_hour"]= df['Start Time'].dt.hour
     most_common_st_hr= df["start_hour"].mode()[0]
     print(f'Most common start hour is: {most_common_st_hr}')
-    
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
@@ -158,7 +158,7 @@ def trip_duration_stats(df):
     # display mean travel time
     mean_travel_time= np.mean(df["total_travel_time"])
     print(f'Mean travel time is: {mean_travel_time}')
-    
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
@@ -181,7 +181,7 @@ def user_stats(df):
         print(f'Earliest year of birth is:\n',np.min(df['Birth Year']) )
         print(f'Recent year of birth is: \n', np.max(df['Birth Year']) )
         print(f"Most common year of birth is: {df['Birth Year'].value_counts().index[0]} with count of {df['Birth Year'].value_counts().values[0]}")
-    
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
@@ -204,4 +204,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-    
